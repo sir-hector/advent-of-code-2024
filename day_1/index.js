@@ -21,11 +21,9 @@ leftPart.sort(function (a, b) {
 rightPart.sort(function (a, b) {
     return a - b;
 });
+// calculate difference
 leftPart.forEach(function (value, index) {
     var difference = Math.abs(value - rightPart[index]);
-    console.log(difference);
     sum = sum + difference;
 });
-console.log(leftPart);
-console.log(rightPart);
 console.log(sum);
