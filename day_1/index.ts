@@ -32,4 +32,25 @@ leftPart.forEach((value, index) => {
     sum = sum + difference;
 })
 
+// part 2
+
+let part2 = 0;
+
+const rightOccurences = rightPart.reduce((acc, value) => {
+    if (acc[value]) {
+        acc[value] += 1;
+    } else {
+        acc[value] = 1;
+    }
+    return acc;
+}, {});
+
+leftPart.forEach((value) => {
+    if (rightOccurences[value]) {
+        part2 += value * rightOccurences[value]
+    }
+})
+
+
 console.log(sum)
+console.log(part2)

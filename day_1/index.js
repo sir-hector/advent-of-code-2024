@@ -26,4 +26,22 @@ leftPart.forEach(function (value, index) {
     var difference = Math.abs(value - rightPart[index]);
     sum = sum + difference;
 });
+// part 2
+var part2 = 0;
+var rightOccurences = rightPart.reduce(function (acc, value) {
+    if (acc[value]) {
+        acc[value] += 1;
+    }
+    else {
+        acc[value] = 1;
+    }
+    return acc;
+}, {});
+leftPart.forEach(function (value) {
+    console.log(value + "" + rightOccurences[value]);
+    if (rightOccurences[value]) {
+        part2 += value * rightOccurences[value];
+    }
+});
 console.log(sum);
+console.log(part2);
