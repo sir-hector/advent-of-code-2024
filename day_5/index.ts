@@ -38,7 +38,7 @@ sequences.forEach((sequence) => {
             // find the key with empty array
             const emptyKey = Object.keys(dictionary).find((key) => dictionary[key].length === 0);
 
-            //remove the key from all avalues
+            //remove the key from all values
             for (const key in dictionary) {
                 dictionary[key] = dictionary[key].filter(item => item !== emptyKey)
             }
