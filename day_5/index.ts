@@ -21,6 +21,44 @@ let sum2 = 0;
 // iterate through updates
 sequences.forEach((sequence) => {
     const sequenceItems = sequence.split(',');
+    const condition = isSorted(sequence)
+
+    if (condition) {
+        sum += parseInt((sequenceItems[Math.floor(sequenceItems.length / 2)]))
+    } else {
+        // PART 2 prepare mapping that has only values from sequence items
+        const dictionary = {};
+        const ordered: string[] = [];
+
+        sequenceItems.forEach(value => {
+            dictionary[value] = rules.filter((rule) => rule[0] === value).map(rule => rule[1]).filter(rule => sequenceItems.includes(rule))
+        })
+
+        while (Object.keys(dictionary).length) {
+            // find the key with empty array
+            const emptyKey = Object.keys(dictionary).find((key) => dictionary[key].length === 0);
+
+            //remove the key from all avalues
+            for (const key in dictionary) {
+                dictionary[key] = dictionary[key].filter(item => item !== emptyKey)
+            }
+
+            if (emptyKey) {
+                delete dictionary[emptyKey];
+                ordered.unshift(emptyKey)
+            }
+        }
+        console.log(ordered)
+        console.log((ordered[Math.floor(ordered.length / 2)]))
+        sum2 += parseInt((ordered[Math.floor(ordered.length / 2)]))
+
+    }
+})
+console.log(sum)
+console.log(sum2)
+
+function isSorted(sequence: string) {
+    const sequenceItems = sequence.split(',');
     let condition = true;
 
     sequenceItems.some((value, index) => {
@@ -40,12 +78,5 @@ sequences.forEach((sequence) => {
 
         return !condition
     })
-
-    if (condition) {
-        sum += parseInt((sequenceItems[Math.floor(sequenceItems.length / 2)]))
-    } else {
-        console.log("part2")
-    }
-})
-console.log(sum)
-console.log(sum2)
+    return condition;
+}
