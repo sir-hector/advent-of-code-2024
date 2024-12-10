@@ -29,13 +29,16 @@ sequences.forEach(function (sequence) {
         // PART 2 prepare mapping that has only values from sequence items
         var dictionary_1 = {};
         var ordered = [];
+        var ruleSplitted_1 = rules.map(function (x) { return x.split('|'); });
         sequenceItems.forEach(function (value) {
-            dictionary_1[value] = rules.filter(function (rule) { return rule[0] === value; }).map(function (rule) { return rule[1]; }).filter(function (rule) { return sequenceItems.includes(rule); });
+            dictionary_1[value] = ruleSplitted_1.filter(function (rule) { return rule[0] == value; }).map(function (rule) { return rule[1]; }).filter(function (rule) { return sequenceItems.includes(rule); });
         });
+        console.log(dictionary_1);
+        console.log(rules);
         var _loop_1 = function () {
             // find the key with empty array
             var emptyKey = Object.keys(dictionary_1).find(function (key) { return dictionary_1[key].length === 0; });
-            //remove the key from all avalues
+            //remove the key from all values
             for (var key in dictionary_1) {
                 dictionary_1[key] = dictionary_1[key].filter(function (item) { return item !== emptyKey; });
             }

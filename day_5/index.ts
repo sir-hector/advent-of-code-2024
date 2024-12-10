@@ -29,15 +29,13 @@ sequences.forEach((sequence) => {
         // PART 2 prepare mapping that has only values from sequence items
         const dictionary = {};
         const ordered: string[] = [];
-
+        const ruleSplitted = rules.map(x => x.split('|'))
         sequenceItems.forEach(value => {
-            dictionary[value] = rules.filter((rule) => rule[0] === value).map(rule => rule[1]).filter(rule => sequenceItems.includes(rule))
+            dictionary[value] = ruleSplitted.filter((rule) => rule[0] == value).map(rule => rule[1]).filter(rule => sequenceItems.includes(rule))
         })
-
         while (Object.keys(dictionary).length) {
             // find the key with empty array
             const emptyKey = Object.keys(dictionary).find((key) => dictionary[key].length === 0);
-
             //remove the key from all values
             for (const key in dictionary) {
                 dictionary[key] = dictionary[key].filter(item => item !== emptyKey)
