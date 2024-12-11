@@ -33,8 +33,6 @@ sequences.forEach(function (sequence) {
         sequenceItems.forEach(function (value) {
             dictionary_1[value] = ruleSplitted_1.filter(function (rule) { return rule[0] == value; }).map(function (rule) { return rule[1]; }).filter(function (rule) { return sequenceItems.includes(rule); });
         });
-        console.log(dictionary_1);
-        console.log(rules);
         var _loop_1 = function () {
             // find the key with empty array
             var emptyKey = Object.keys(dictionary_1).find(function (key) { return dictionary_1[key].length === 0; });
