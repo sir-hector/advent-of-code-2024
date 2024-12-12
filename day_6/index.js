@@ -31,7 +31,6 @@ while (found) {
         found = false;
         break;
     }
-    console.log(splitted[cursorXPosition][cursorYPosition]);
     if (splitted[cursorYPosition][cursorXPosition] === OBSTRUCTION_SYMBOL) {
         cursorXPosition -= dx;
         cursorYPosition -= dy;
@@ -45,9 +44,62 @@ while (found) {
         cursorYPosition += dy;
     }
 }
-console.log(splitted);
 console.log(visitedPositions.size);
 // direction dx, dy
 function turnRight(dx, dy) {
     return [-dy, dx];
+}
+// part 2
+// reset cursor position
+splitted.some(function (value, rowIndex) {
+    var found = false;
+    value.split('').some(function (value, index) {
+        if (value === CURSOR_SYMBOL) {
+            cursorYPosition = rowIndex;
+            cursorXPosition = index;
+            found = true;
+            return found;
+        }
+    });
+    return found;
+});
+var loopCausingPositions = 0;
+visitedPositions.forEach(function (position) {
+    var _a = position.split(',').map(Number), obstructionX = _a[0], obstructionY = _a[1];
+    if (obstructionX === cursorXPosition && obstructionY === cursorYPosition) {
+        return;
+    }
+    console.log(causesLoop(obstructionX, obstructionY));
+    if (causesLoop(obstructionX, obstructionY)) {
+        loopCausingPositions++;
+    }
+});
+console.log(loopCausingPositions);
+function causesLoop(obstructionX, obstructionY) {
+    var _a;
+    var guardX = cursorXPosition;
+    var guardY = cursorYPosition;
+    var dirX = 0;
+    var dirY = -1;
+    var seenStates = new Set();
+    while (true) {
+        if (guardX >= columnsNumber || guardX < 0 || guardY >= rowsNumber || guardY < 0) {
+            return false;
+        }
+        if ((guardX === obstructionX && guardY === obstructionY) ||
+            splitted[guardY][guardX] === OBSTRUCTION_SYMBOL) {
+            guardX -= dirX;
+            guardY -= dirY;
+            _a = turnRight(dirX, dirY), dirX = _a[0], dirY = _a[1];
+        }
+        else {
+            var state = "".concat(guardX, ",").concat(guardY, ",").concat(dirX, ",").concat(dirY);
+            if (seenStates.has(state)) {
+                return true;
+            }
+            seenStates.add(state);
+            guardX += dirX;
+            guardY += dirY;
+        }
+    }
 }
