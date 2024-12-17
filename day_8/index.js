@@ -32,13 +32,12 @@ splitted.forEach(function (value, indexY) {
 });
 // check antinodes
 Object.keys(antennas).forEach(function (antenna) {
-    console.log(antenna);
     // iterate through all positions 
     antennas[antenna].forEach(function (item, index) {
-        // generate all position for
+        // generate all positions
+        antinodes.add("".concat(item[0], ", ").concat(item[1]));
         for (var i = index + 1; i < antennas[antenna].length; i++) {
-            console.log(item + ' ' + antennas[antenna][i]);
-            getPossibleAntinodes(item, antennas[antenna][i]);
+            getPossibleAntinodes2(item, antennas[antenna][i]);
         }
     });
 });
@@ -50,15 +49,13 @@ function calculateDistance(pointA, pointB) {
 function getPossibleAntinodes(pointA, pointB) {
     var _a = calculateDistance(pointA, pointB), dx = _a[0], dy = _a[1];
     // first point
-    console.log(isPointInRange(pointA, dx, dy));
+    isPointInRange(pointA, dx, dy);
     // second point
-    console.log(isPointInRange(pointB, -dx, -dy));
+    isPointInRange(pointB, -dx, -dy);
 }
 function isPointInRange(point, dx, dy) {
     var newPointX = point[0] + dx;
     var newPointY = point[1] + dy;
-    console.log(newPointX);
-    console.log(newPointY);
     if (newPointX >= 0 && newPointX < columnsNumber && newPointY >= 0 && newPointY < rowsNumber) {
         antinodes.add("".concat(newPointX, ", ").concat(newPointY));
         return true;
@@ -66,3 +63,35 @@ function isPointInRange(point, dx, dy) {
     return false;
 }
 console.log(antinodes.size);
+// part 2
+function getPossibleAntinodes2(pointA, pointB) {
+    var _a = calculateDistance(pointA, pointB), dx = _a[0], dy = _a[1];
+    var _b = calculateDistance(pointA, pointB), dx2 = _b[0], dy2 = _b[1];
+    var pointACondition = true;
+    var pointBCondition = true;
+    var currentDx = dx;
+    var currentDy = dy;
+    // first direction
+    while (pointACondition) {
+        pointACondition = isPointInRange2(pointA, currentDx, currentDy);
+        currentDx += dx;
+        currentDy += dy;
+    }
+    var currentDx2 = -dx2;
+    var currentDy2 = -dy2;
+    // second direction
+    while (pointBCondition) {
+        pointBCondition = isPointInRange2(pointB, currentDx2, currentDy2);
+        currentDx2 -= dx2;
+        currentDy2 -= dy2;
+    }
+}
+function isPointInRange2(point, dx, dy) {
+    var newPointX = point[0] + dx;
+    var newPointY = point[1] + dy;
+    if (newPointX >= 0 && newPointX < columnsNumber && newPointY >= 0 && newPointY < rowsNumber) {
+        antinodes.add("".concat(newPointX, ", ").concat(newPointY));
+        return true;
+    }
+    return false;
+}

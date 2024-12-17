@@ -27,8 +27,9 @@ Object.keys(antennas).forEach((antenna) => {
     // iterate through all positions 
     antennas[antenna].forEach((item, index) => {
         // generate all positions
+        antinodes.add(`${item[0]}, ${item[1]}`);
         for (let i = index + 1; i < antennas[antenna].length; i++) {
-            getPossibleAntinodes(item, antennas[antenna][i])
+            getPossibleAntinodes2(item, antennas[antenna][i])
         }
     })
 })
@@ -63,3 +64,46 @@ function isPointInRange(point, dx, dy) {
 }
 
 console.log(antinodes.size)
+
+// part 2
+
+function getPossibleAntinodes2(pointA, pointB) {
+    let [dx, dy] = calculateDistance(pointA, pointB);
+    let [dx2, dy2] = calculateDistance(pointA, pointB);
+    let pointACondition = true;
+    let pointBCondition = true;
+
+    let currentDx = dx;
+    let currentDy = dy;
+
+
+    // first direction
+    while (pointACondition) {
+        pointACondition = isPointInRange2(pointA, currentDx, currentDy)
+        currentDx += dx;
+        currentDy += dy;
+    }
+
+    let currentDx2 = -dx2;
+    let currentDy2 = -dy2;
+
+    // second direction
+    while (pointBCondition) {
+        pointBCondition = isPointInRange2(pointB, currentDx2, currentDy2)
+        currentDx2 -= dx2;
+        currentDy2 -= dy2;
+    }
+}
+
+
+function isPointInRange2(point, dx, dy) {
+    const newPointX = point[0] + dx
+    const newPointY = point[1] + dy
+
+    if (newPointX >= 0 && newPointX < columnsNumber && newPointY >= 0 && newPointY < rowsNumber) {
+        antinodes.add(`${newPointX}, ${newPointY}`)
+        return true;
+    }
+
+    return false;
+}
