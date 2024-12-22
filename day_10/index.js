@@ -1,4 +1,13 @@
 "use strict";
+var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
+    if (pack || arguments.length === 2) for (var i = 0, l = from.length, ar; i < l; i++) {
+        if (ar || !(i in from)) {
+            if (!ar) ar = Array.prototype.slice.call(from, 0, i);
+            ar[i] = from[i];
+        }
+    }
+    return to.concat(ar || Array.prototype.slice.call(from));
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 var fs_1 = require("fs");
 var data = (0, fs_1.readFileSync)('./data.txt', 'utf-8').trim();
@@ -8,30 +17,31 @@ var columnsNumber = splitted[0].length;
 // find trailheads - value 0
 var trailheadsIndexes = searchIndexes(0);
 var score = 0;
+var _loop_1 = function (i) {
+    var newIndexes = trailheadsIndexes.flatMap(function (value) { return searchNextIndexes(value, i); });
+    trailheadsIndexes = [];
+    trailheadsIndexes = __spreadArray([], newIndexes, true);
+};
 // get positions from neighbourhood of (value ++)
-// for (let i = 1; i < 10; i++) {
-//     const newIndexes = trailheadsIndexes.flatMap(value => searchNextIndexes(value, i));
-//     trailheadsIndexes = [];
-//     trailheadsIndexes = [...newIndexes];
-// }
-trailheadsIndexes.forEach(function (value) {
-    var trailHeadScore = new Set();
-    var indexes = [value];
-    var _loop_1 = function (i) {
-        indexes = indexes.flatMap(function (value) { return searchNextIndexes(value, i); });
-    };
-    for (var i = 1; i < 10; i++) {
-        _loop_1(i);
-    }
-    ;
-    indexes.forEach(function (value) { return trailHeadScore.add(value); });
-    // console.log(indexes)
-    console.log("trailHeadScore.size");
-    console.log(trailHeadScore.size);
-    score += trailHeadScore.size;
-});
-// if position is 9 count as complete trail
-// console.log(trailheadsIndexes.length);
+// part 2 
+for (var i = 1; i < 10; i++) {
+    _loop_1(i);
+}
+console.log(trailheadsIndexes);
+console.log(trailheadsIndexes.length);
+// part 1 
+// trailheadsIndexes.forEach(value => {
+//     const trailHeadScore = new Set<string>();
+//     let indexes = [value];
+//     for (let i = 1; i < 10; i++) {
+//         indexes = indexes.flatMap(value => searchNextIndexes(value, i));
+//     };
+//     indexes.forEach(value => trailHeadScore.add(value))
+//     // console.log(indexes)
+//     console.log("trailHeadScore.size")
+//     console.log(trailHeadScore.size)
+//     score += trailHeadScore.size
+// })
 console.log("score");
 console.log(score);
 function searchIndexes(searchValue) {

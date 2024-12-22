@@ -10,25 +10,30 @@ let trailheadsIndexes: string[] = searchIndexes(0)
 let score = 0;
 
 // get positions from neighbourhood of (value ++)
-// for (let i = 1; i < 10; i++) {
-//     const newIndexes = trailheadsIndexes.flatMap(value => searchNextIndexes(value, i));
-//     trailheadsIndexes = [];
-//     trailheadsIndexes = [...newIndexes];
-// }
+// part 2 
+for (let i = 1; i < 10; i++) {
+    const newIndexes = trailheadsIndexes.flatMap(value => searchNextIndexes(value, i));
+    trailheadsIndexes = [];
+    trailheadsIndexes = [...newIndexes];
+}
 
-trailheadsIndexes.forEach(value => {
-    const trailHeadScore = new Set<string>();
-    let indexes = [value];
-    for (let i = 1; i < 10; i++) {
-        indexes = indexes.flatMap(value => searchNextIndexes(value, i));
-    };
+console.log(trailheadsIndexes)
+console.log(trailheadsIndexes.length)
 
-    indexes.forEach(value => trailHeadScore.add(value))
-    // console.log(indexes)
-    console.log("trailHeadScore.size")
-    console.log(trailHeadScore.size)
-    score += trailHeadScore.size
-})
+// part 1 
+// trailheadsIndexes.forEach(value => {
+//     const trailHeadScore = new Set<string>();
+//     let indexes = [value];
+//     for (let i = 1; i < 10; i++) {
+//         indexes = indexes.flatMap(value => searchNextIndexes(value, i));
+//     };
+
+//     indexes.forEach(value => trailHeadScore.add(value))
+//     // console.log(indexes)
+//     console.log("trailHeadScore.size")
+//     console.log(trailHeadScore.size)
+//     score += trailHeadScore.size
+// })
 
 console.log("score");
 console.log(score);
